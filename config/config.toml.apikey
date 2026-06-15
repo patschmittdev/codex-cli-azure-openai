@@ -1,0 +1,21 @@
+# Codex CLI -> Azure OpenAI, API key auth, any OS.
+# Copy to ~/.codex/config.toml (or %USERPROFILE%\.codex\config.toml on Windows).
+# Set AZURE_OPENAI_API_KEY in your environment before running codex.
+# Prefer Entra ID for shared or production use.
+
+model = "YOUR_DEPLOYMENT"
+model_provider = "azure"
+forced_login_method = "api"
+
+[analytics]
+enabled = false
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE.openai.azure.com/openai"
+env_key = "AZURE_OPENAI_API_KEY"
+query_params = { api-version = "2025-04-01-preview" }
+wire_api = "responses"
+request_max_retries = 4
+stream_max_retries = 10
+stream_idle_timeout_ms = 300000

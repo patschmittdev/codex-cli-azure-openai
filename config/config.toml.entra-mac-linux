@@ -1,0 +1,31 @@
+# Codex CLI -> Azure OpenAI, Entra ID auth, macOS/Linux.
+# Copy to ~/.codex/config.toml and edit YOUR_RESOURCE / YOUR_DEPLOYMENT.
+# Run `az login` first; the signed-in identity needs the
+# "Cognitive Services OpenAI User" role on the AOAI resource.
+
+model = "YOUR_DEPLOYMENT"
+model_provider = "azure"
+forced_login_method = "api"
+
+[analytics]
+enabled = false
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE.openai.azure.com/openai"
+query_params = { api-version = "2025-04-01-preview" }
+wire_api = "responses"
+request_max_retries = 4
+stream_max_retries = 10
+stream_idle_timeout_ms = 300000
+
+[model_providers.azure.auth]
+command = "az"
+args = [
+  "account", "get-access-token",
+  "--resource", "https://cognitiveservices.azure.com",
+  "--query", "accessToken",
+  "-o", "tsv",
+]
+timeout_ms = 15000
+refresh_interval_ms = 1800000
